@@ -1,4 +1,8 @@
 # audio-metadata
+
+[![Build Status](https://travis-ci.org/tmont/audio-metadata.png)](https://travis-ci.org/tmont/audio-metadata)
+[![NPM version](https://badge.fury.io/js/audio-metadata.png)](http://badge.fury.io/js/audio-metadata)
+
 This is a tiny (1.9K gzipped) library to extract metadata from audio files.
 Specifically, it can extract [ID3v1](http://en.wikipedia.org/wiki/ID3#ID3v1),
 [ID3v2](http://en.wikipedia.org/wiki/ID3#ID3v2) and
