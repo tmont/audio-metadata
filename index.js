@@ -107,6 +107,12 @@ function checkMagicId3(view, offset) {
 	return id3Magic[0] === 73 && id3Magic[1] === 68 && id3Magic[2] === 51;
 }
 
+function checkMagicId3v1(view) {
+	var id3Magic = readBytes(view, view.byteLength - 128, 3);
+	//"TAG"
+	return id3Magic[0] === 84 && id3Magic[1] === 65 && id3Magic[2] === 71;
+}
+
 function getUint28(view, offset) {
 	var sizeBytes = readBytes(view, offset, 4);
 	var mask = 0xfffffff;
@@ -117,13 +123,53 @@ function getUint28(view, offset) {
 }
 
 exports.id3 = function(buffer) {
-	var view = new DataView(buffer);
-	if (checkMagicId3(view, 0)) {
+	if (checkMagicId3(new DataView(buffer), 0)) {
 		return exports.id3v2(buffer);
 	}
 
-	//TODO id3v1
-	return {};
+	return exports.id3v1(buffer);
+};
+
+exports.id3v1 = function(buffer) {
+	//read last 128 bytes
+	var view = new DataView(getArrayBuffer(buffer));
+	if (!checkMagicId3v1(view)) {
+		throw new Error('Magic ID3 failed');
+	}
+
+	function trim(value) {
+		return value.replace(/[\s\u0000]+$/, '');
+	}
+
+	var offset = view.byteLength - 128 + 3;
+	var title = readAscii(view, offset, 30),
+		artist = readAscii(view, offset + 30, 30),
+		album = readAscii(view, offset + 60, 30),
+		year = readAscii(view, offset + 90, 4);
+
+	offset += 94;
+
+	var comment = readAscii(view, offset, 28),
+		track = null;
+	offset += 28;
+	if (view.getUint8(offset) === 0) {
+		//next byte is the track
+		track = view.getUint8(offset + 1);
+	} else {
+		comment += readAscii(view, offset, 2);
+	}
+
+	offset += 2;
+	var genre = view.getUint8(offset);
+	return {
+		title: trim(title),
+		artist: trim(artist),
+		album: trim(album),
+		year: trim(year),
+		comment: trim(comment),
+		track: track,
+		genre: genre
+	};
 };
 
 exports.id3v2 = function(buffer) {
