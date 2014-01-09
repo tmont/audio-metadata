@@ -45,4 +45,24 @@ describe('id3', function() {
 			done();
 		});
 	});
+
+	it('should read id3v2.3.0', function(done) {
+		var file = path.join(__dirname, 'files', 'test_id3v2.3.mp3');
+		fs.readFile(file, function(err, buffer) {
+			if (err) {
+				done(err);
+				return;
+			}
+
+			var metadata = metaDataReader.id3v2(buffer);
+			should.exist(metadata);
+			metadata.should.have.property('title', 'Foobar');
+			metadata.should.have.property('artist', 'The Foobars');
+			metadata.should.have.property('album', 'FUBAR');
+			metadata.should.have.property('year', '2014');
+			metadata.should.have.property('encoder', 'Lavf53.21.1');
+			metadata.should.have.property('track', '9');
+			done();
+		});
+	});
 });
