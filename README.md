@@ -31,6 +31,11 @@ To accomplish the small size and speed, it sacrifices several things.
 4. ID3v1.1 (extended tags with "TAG+") are not supported, Wikipedia suggests they
    aren't really well-supported in media players anyway.
 
+As such, the code is a bit abstruse, in that you'll see some magic numbers, like
+`offset += 94` where it's ignoring a bunch of header data to get to the good stuff.
+Don't judge me based on this code. It works and it's tested; it's just hard to
+read.
+
 ## Usage
 The library operates solely on `ArrayBuffer`s, or `Buffer`s for Node's convenience.
 So you'll need to preload your audio data before using this library.
