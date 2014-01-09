@@ -1,0 +1,23 @@
+{
+	"name": "audio-metadata",
+	"version": "0.0.1",
+	"description": "Extract metadata from mp3, wav and ogg",
+	"keywords": [ "id3", "metadata", "mp3", "ogg", "wav" ],
+
+	"author": "Tommy Montgomery <tmont@tmont.com> (http://tmont.com/)",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tmont/audio-metadata.git"
+	},
+
+	"dependencies": {},
+
+	"devDependencies": {
+		"mocha": "1.16.2",
+		"should": "2.1.1"
+	},
+
+	"scripts": {
+		"test": "./node_modules/.bin/mocha -R spec tests"
+	}
+}
