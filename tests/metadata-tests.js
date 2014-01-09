@@ -4,7 +4,7 @@ var should = require('should'),
 	metaDataReader = require('../');
 
 describe('ogg', function() {
-	it('should read comments from avconv-generated ogg', function(done) {
+	it('should read comments from ogg', function(done) {
 		var file = path.join(__dirname, 'files', 'test.ogg');
 		fs.readFile(file, function(err, buffer) {
 			if (err) {
