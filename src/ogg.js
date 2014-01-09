@@ -1,0 +1,50 @@
+var utils = require('./utils');
+
+/**
+ * See http://www.ietf.org/rfc/rfc3533.txt
+ * @param {Buffer|ArrayBuffer} buffer
+ */
+module.exports = function(buffer) {
+	var view = utils.createView(buffer);
+
+	function parsePage(offset, withPacket) {
+		var numPageSegments = view.getUint8(offset + 26),
+			segmentTable = utils.readBytes(view, offset + 27, numPageSegments),
+			headerSize = 27 + segmentTable.length,
+			pageSize = headerSize + segmentTable.reduce(function(cur, next) {
+				return cur + next;
+			}),
+			length = headerSize + 1 + 'vorbis'.length,
+			packetView = null;
+
+		if (withPacket) {
+			packetView = utils.createView(new ArrayBuffer(pageSize - length));
+			utils.readBytes(view, offset + length, pageSize - length, packetView);
+		}
+
+		return {
+			pageSize: pageSize,
+			packet: packetView
+		};
+	}
+
+	function parseComments(packet) {
+		var vendorLength = packet.getUint32(0, true),
+			commentListLength = packet.getUint32(4 + vendorLength, true),
+			comments = {},
+			offset = 8 + vendorLength;
+
+		for (var i = 0; i < commentListLength; i++) {
+			var commentLength = packet.getUint32(offset, true),
+				comment = utils.readUtf8(packet, offset + 4, commentLength),
+				equals = comment.indexOf('=');
+
+			comments[comment.substring(0, equals).toLowerCase()] = comment.substring(equals + 1);
+			offset += 4 + commentLength;
+		}
+
+		return comments;
+	}
+
+	return parseComments(parsePage(parsePage(0).pageSize, true).packet);
+};
