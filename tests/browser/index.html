@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Testypoo!</title>
+	</head>
+	<body>
+
+		<script type="text/javascript" src="../../audio-metadata.min.js"></script>
+		<script type="text/javascript">
+			(function() {
+				var files = {
+					ogg: '../files/test.ogg',
+					id3v1_notrack: '../files/test_id3v1_notrack.mp3',
+					id3v1: '../files/test_id3v1.mp3',
+					id3v23: '../files/test_id3v2.3.mp3',
+					id3v24: '../files/test_id3v2.4.mp3'
+				};
+
+				function load(title) {
+					var req = new XMLHttpRequest(),
+						self = this;
+					req.open('GET', files[title], true);
+					req.responseType = 'arraybuffer';
+
+					req.onload = function() {
+						var buffer = req.response,
+							data;
+						if (title === 'ogg') {
+							data = AudioMetadata.ogg(buffer);
+						} else if (/^id3v2/.test(title)) {
+							data = AudioMetadata.id3v2(buffer);
+						} else {
+							data = AudioMetadata.id3v1(buffer);
+						}
+
+						var header = document.createElement('h2');
+						header.appendChild(document.createTextNode(title));
+						var audio = document.createElement('audio');
+						audio.autoplay = false;
+						audio.controls = true;
+						audio.src = files[title];
+						audio.style.marginLeft = "20px";
+						header.appendChild(audio);
+
+						var pre = document.createElement('pre');
+						pre.appendChild(document.createTextNode(JSON.stringify(data, null, '  ')));
+						document.body.appendChild(header);
+						document.body.appendChild(pre);
+					};
+
+					req.send(null);
+				}
+
+				for (var title in files) {
+					load(title);
+				}
+			}());
+		</script>
+	</body>
+</html>
