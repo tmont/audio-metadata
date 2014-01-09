@@ -17,8 +17,7 @@
 				};
 
 				function load(title) {
-					var req = new XMLHttpRequest(),
-						self = this;
+					var req = new XMLHttpRequest();
 					req.open('GET', files[title], true);
 					req.responseType = 'arraybuffer';
 
