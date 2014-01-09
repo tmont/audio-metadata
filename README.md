@@ -1,5 +1,5 @@
 # audio-metadata
-This is a tiny (1.9K gzipped) little library to extract metadata from audio files.
+This is a tiny (1.9K gzipped) library to extract metadata from audio files.
 Specifically, it can extract [ID3v1](http://en.wikipedia.org/wiki/ID3#ID3v1),
 [ID3v2](http://en.wikipedia.org/wiki/ID3#ID3v2) and
 [Xiph comments](http://www.xiph.org/vorbis/doc/v-comment.html)
