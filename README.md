@@ -78,7 +78,7 @@ Loading `audio-metadata.min.js` will define the `AudioMetadata` global variable.
 <script type="text/javascript" src="audio-metadata.min.js"></script>
 <script type="text/javascript">
 	var req = new XMLHttpRequest();
-	req.open('GET', 'http://example.com/sofine.mp3, true);
+	req.open('GET', 'http://example.com/sofine.mp3', true);
 	req.responseType = 'arraybuffer';
 
 	req.onload = function() {
