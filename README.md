@@ -110,3 +110,5 @@ npm test
 There's a "test" (yeah, yeah) for browsers, which you can view
 by running `npm start` and then pointing your browser at
 [http://localhost:24578/tests/browser/](http://localhost:24578/tests/browser/).
+
+To build the minified browserified file, run `npm run minify`.
