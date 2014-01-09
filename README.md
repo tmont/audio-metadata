@@ -5,6 +5,8 @@ Specifically, it can extract [ID3v1](http://en.wikipedia.org/wiki/ID3#ID3v1),
 [Xiph comments](http://www.xiph.org/vorbis/doc/v-comment.html)
 (i.e. metadata in [OGG containers](http://en.wikipedia.org/wiki/Ogg)).
 
+Licensed under the [WTFPL](http://www.wtfpl.net/).
+
 ## What is this good for?
 The purpose of this library is to be very fast and small. It's suitable
 for server-side or client-side. Really any platform that supports

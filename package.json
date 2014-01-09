@@ -10,6 +10,14 @@
 		"url": "https://github.com/tmont/audio-metadata.git"
 	},
 
+	"files": [
+		"index.js",
+		"src",
+		"README.md"
+	],
+
+	"license": "WTFPL",
+
 	"devDependencies": {
 		"mocha": "1.16.2",
 		"should": "2.1.1",
