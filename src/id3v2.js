@@ -6,7 +6,6 @@ function checkMagicId3(view, offset) {
 	return id3Magic[0] === 73 && id3Magic[1] === 68 && id3Magic[2] === 51;
 }
 
-
 function getUint28(view, offset) {
 	var sizeBytes = utils.readBytes(view, offset, 4);
 	var mask = 0xfffffff;
@@ -23,36 +22,22 @@ module.exports = function(buffer) {
 	}
 
 	var offset = 3;
-	var majorVersion = view.getUint8(offset);
-	var minorVersion = view.getUint8(offset + 1);
 	offset += 2;
 	var flags = view.getUint8(offset);
 	offset++;
 	var size = getUint28(view, offset);
 	offset += 4;
 
-	var unsynchronization = (flags & 256) > 0;
 	var extendedHeader = (flags & 128) > 0;
-	var experimental = (flags & 64) > 0;
-	var footerPresent = (flags & 32) > 0;
 
 	if (extendedHeader) {
-		var ehSize = getUint28(view, offset);
-		offset += 4;
-		var ehNumFlags = view.getUint8(offset);
-		offset++;
-		var ehFlags = view.getUint8(offset);
-		offset++;
-		var ehData = utils.readBytes(view, offset, ehSize - 6);
+		offset += getUint28(view, offset);
 	}
 
 	function readFrame(offset) {
 		var id = utils.readAscii(view, offset, 4);
-		offset += 4;
-		var size = getUint28(view, offset);
-		offset += 4;
-		var flags = view.getUint16(view, offset);
-		offset += 2;
+		var size = getUint28(view, offset + 4);
+		offset += 10;
 
 		var encoding = view.getUint8(offset),
 			data = null;
