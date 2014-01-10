@@ -42,14 +42,18 @@ module.exports = function(buffer) {
 		var vendorLength = packet.getUint32(0, true),
 			commentListLength = packet.getUint32(4 + vendorLength, true),
 			comments = {},
-			offset = 8 + vendorLength;
+			offset = 8 + vendorLength,
+			map = {
+				tracknumber: 'track'
+			};
 
 		for (var i = 0; i < commentListLength; i++) {
 			var commentLength = packet.getUint32(offset, true),
 				comment = utils.readUtf8(packet, offset + 4, commentLength),
-				equals = comment.indexOf('=');
+				equals = comment.indexOf('='),
+				key = comment.substring(0, equals).toLowerCase();
 
-			comments[comment.substring(0, equals).toLowerCase()] = comment.substring(equals + 1);
+			comments[map[key] || key] = comment.substring(equals + 1);
 			offset += 4 + commentLength;
 		}
 

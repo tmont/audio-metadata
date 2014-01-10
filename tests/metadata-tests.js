@@ -19,7 +19,7 @@ describe('ogg', function() {
 			metadata.should.have.property('album', 'Bill and Lance\'s Excellent Adventure');
 			metadata.should.have.property('year', '1988');
 			metadata.should.have.property('encoder', 'Lavf53.21.1');
-			metadata.should.have.property('tracknumber', '1');
+			metadata.should.have.property('track', '1');
 			done();
 		});
 	});
