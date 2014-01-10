@@ -8,9 +8,19 @@ module.exports = function(buffer) {
 	var view = utils.createView(buffer);
 
 	function parsePage(offset, withPacket) {
+		if (view.byteLength < offset + 27) {
+			return null;
+		}
+
 		var numPageSegments = view.getUint8(offset + 26),
 			segmentTable = utils.readBytes(view, offset + 27, numPageSegments),
-			headerSize = 27 + segmentTable.length,
+			headerSize = 27 + segmentTable.length;
+
+		if (!segmentTable.length) {
+			return null;
+		}
+
+		var
 			pageSize = headerSize + segmentTable.reduce(function(cur, next) {
 				return cur + next;
 			}),
@@ -46,5 +56,15 @@ module.exports = function(buffer) {
 		return comments;
 	}
 
-	return parseComments(parsePage(parsePage(0).pageSize, true).packet);
+	var id = parsePage(0);
+	if (!id) {
+		return null;
+	}
+
+	var commentHeader = parsePage(id.pageSize, true);
+	if (!commentHeader) {
+		return null;
+	}
+
+	return parseComments(commentHeader.packet);
 };

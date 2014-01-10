@@ -18,7 +18,7 @@ function getUint28(view, offset) {
 module.exports = function(buffer) {
 	var view = utils.createView(buffer);
 	if (!checkMagicId3(view, 0)) {
-		throw new Error('Magic ID3 failed');
+		return null;
 	}
 
 	var offset = 3;

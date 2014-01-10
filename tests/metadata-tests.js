@@ -23,6 +23,13 @@ describe('ogg', function() {
 			done();
 		});
 	});
+
+	it('should not explode if ogg comments don\'t exist', function(done) {
+		var buffer = new Buffer(30);
+		var metadata = metaDataReader.ogg(buffer);
+		should.deepEqual(metadata, null);
+		done();
+	});
 });
 
 describe('id3', function() {
@@ -106,5 +113,19 @@ describe('id3', function() {
 			metadata.should.have.property('comment', 'this should be exactly 30 char');
 			done();
 		});
+	});
+
+	it('should not explode if ID3v1 tags don\'t exist', function(done) {
+		var buffer = new Buffer(1);
+		var metadata = metaDataReader.id3v1(buffer);
+		should.deepEqual(metadata, null);
+		done();
+	});
+
+	it('should not explode if ID3v2 tags don\'t exist', function(done) {
+		var buffer = new Buffer(1);
+		var metadata = metaDataReader.id3v2(buffer);
+		should.deepEqual(metadata, null);
+		done();
 	});
 });

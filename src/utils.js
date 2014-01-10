@@ -22,6 +22,10 @@ module.exports = {
 	},
 
 	readBytes: function(view, offset, length, target) {
+		if (view.byteLength < offset + length || (offset + length) < 0) {
+			return [];
+		}
+
 		var bytes = [];
 		for (var i = 0; i < length; i++) {
 			var value = view.getUint8(offset + i);
@@ -35,6 +39,9 @@ module.exports = {
 	},
 
 	readAscii: function(view, offset, length) {
+		if (view.byteLength < offset + length) {
+			return '';
+		}
 		var s = '';
 		for (var i = 0; i < length; i++) {
 			s += String.fromCharCode(view.getUint8(offset + i));
@@ -44,6 +51,10 @@ module.exports = {
 	},
 
 	readUtf8: function(view, offset, length) {
+		if (view.byteLength < offset + length) {
+			return '';
+		}
+
 		var buffer = view.buffer.slice(offset, offset + length);
 
 		//http://stackoverflow.com/a/17192845 - convert byte array to UTF8 string
