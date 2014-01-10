@@ -25,20 +25,25 @@ To accomplish the small size and speed, it sacrifices several things.
 
 1. It's very naive. For example, the OGG format stipulates that the comment
    header must come second, after the identification header. This library
-   assumes that's always true and completely ignores the identification header.
+   assumes that's always true and ignores the header type byte.
 2. Text encoding is for losers. ID3v2 in particular has a lot of flexibility in
    terms of the encoding of text for ID3 frames. This library will handle UTF8
    properly, but everything else is just spit out as ASCII.
 3. It assumes that ID3v2 tags are always the very first thing in the file (as they
    should be). The spec is mum on whether that's ''required'', but this library
    assumes it is.
-4. ID3v1.1 (extended tags with "TAG+") are not supported, Wikipedia suggests they
+4. ID3v1.1 (extended tags with "TAG+") are not supported; Wikipedia suggests they
    aren't really well-supported in media players anyway.
 
 As such, the code is a bit abstruse, in that you'll see some magic numbers, like
 `offset += 94` where it's ignoring a bunch of header data to get to the good stuff.
 Don't judge me based on this code. It works and it's tested; it's just hard to
 read.
+
+Of course, since this isn't an actual parser, invalid files will also work. This
+means, for example, you could only read the first couple hundred bytes of an MP3
+file and still extract the metadata from it, rather than requiring actual valid
+MP3 data.
 
 ## Usage
 The library operates solely on `ArrayBuffer`s, or `Buffer`s for Node's convenience.
