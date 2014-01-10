@@ -1,6 +1,6 @@
 {
 	"name": "audio-metadata",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Extract metadata from mp3, wav and ogg",
 	"keywords": [ "id3", "metadata", "mp3", "ogg", "wav" ],
 
