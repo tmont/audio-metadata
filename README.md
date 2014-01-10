@@ -72,7 +72,7 @@ var metadata = audioMetaData.ogg(oggData);
   "artist": "Konami",
   "album": "Bill and Lance's Excellent Adventure",
   "year": "1988",
-  "tracknumber": "1",
+  "track": "1",
   "encoder": "Lavf53.21.1"
 }
 */
