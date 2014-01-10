@@ -1,7 +1,7 @@
 {
 	"name": "audio-metadata",
 	"version": "0.1.1",
-	"description": "Extract metadata from mp3, wav and ogg",
+	"description": "Extract metadata from audio files",
 	"keywords": [ "id3", "metadata", "mp3", "ogg", "wav" ],
 
 	"author": "Tommy Montgomery <tmont@tmont.com> (http://tmont.com/)",
