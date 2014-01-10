@@ -14,7 +14,7 @@ module.exports = function(buffer) {
 
 		var numPageSegments = view.getUint8(offset + 26),
 			segmentTable = utils.readBytes(view, offset + 27, numPageSegments),
-			headerSize = 27 + segmentTable.length;
+			headerSize = 27 + numPageSegments;
 
 		if (!segmentTable.length) {
 			return null;

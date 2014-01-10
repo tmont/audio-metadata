@@ -22,16 +22,17 @@ module.exports = {
 	},
 
 	readBytes: function(view, offset, length, target) {
-		if (view.byteLength < offset + length || (offset + length) < 0) {
+		if (offset + length < 0) {
 			return [];
 		}
 
 		var bytes = [];
-		for (var i = 0; i < length; i++) {
-			var value = view.getUint8(offset + i);
+		var max = Math.min(offset + length, view.byteLength);
+		for (var i = offset; i < max; i++) {
+			var value = view.getUint8(i);
 			bytes.push(value);
 			if (target) {
-				target.setUint8(i, value);
+				target.setUint8(i - offset, value);
 			}
 		}
 

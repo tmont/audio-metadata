@@ -24,6 +24,26 @@ describe('ogg', function() {
 		});
 	});
 
+	it('should read comments from truncated ogg', function(done) {
+		var file = path.join(__dirname, 'files', 'truncated.ogg');
+		fs.readFile(file, function(err, buffer) {
+			if (err) {
+				done(err);
+				return;
+			}
+
+			var metadata = metaDataReader.ogg(buffer);
+			should.exist(metadata);
+			metadata.should.have.property('title', 'Contra Base Snippet');
+			metadata.should.have.property('artist', 'Konami');
+			metadata.should.have.property('album', 'Bill and Lance\'s Excellent Adventure');
+			metadata.should.have.property('year', '1988');
+			metadata.should.have.property('encoder', 'Lavf53.21.1');
+			metadata.should.have.property('track', '1');
+			done();
+		});
+	});
+
 	it('should not explode if ogg comments don\'t exist', function(done) {
 		var buffer = new Buffer(30);
 		var metadata = metaDataReader.ogg(buffer);
