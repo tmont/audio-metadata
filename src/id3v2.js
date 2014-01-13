@@ -101,8 +101,7 @@ module.exports = function(buffer) {
 	while (offset < endOfTags) {
 		var frame = readFrame(offset);
 		if (!frame) {
-			offset = Infinity;
-			continue;
+			break;
 		}
 
 		offset += frame.size;
