@@ -53,7 +53,7 @@ module.exports = function(buffer) {
 				equals = comment.indexOf('='),
 				key = comment.substring(0, equals).toLowerCase();
 
-			comments[map[key] || key] = comment.substring(equals + 1);
+			comments[map[key] || key] = comments[key] = comment.substring(equals + 1);
 			offset += 4 + commentLength;
 		}
 

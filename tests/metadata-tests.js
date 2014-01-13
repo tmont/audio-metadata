@@ -20,6 +20,7 @@ describe('ogg', function() {
 			metadata.should.have.property('year', '1988');
 			metadata.should.have.property('encoder', 'Lavf53.21.1');
 			metadata.should.have.property('track', '1');
+			metadata.should.have.property('tracknumber', '1');
 			done();
 		});
 	});
@@ -88,6 +89,11 @@ describe('id3', function() {
 			metadata.should.have.property('album', 'Motif');
 			metadata.should.have.property('year', '2004');
 			metadata.should.have.property('track', '2');
+			metadata.should.have.property('TRCK', '2');
+			metadata.should.have.property('TDRC', '2004');
+			metadata.should.have.property('TIT2', 'The Four Orbs');
+			metadata.should.have.property('TALB', 'Motif');
+			metadata.should.have.property('TPE1', 'Tommy Montgomery');
 			done();
 		});
 	});

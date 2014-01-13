@@ -115,7 +115,7 @@ module.exports = function(buffer) {
 			id = frame.content.substring(0, nullByte);
 			frames[id] = frame.content.substring(nullByte + 1);
 		} else {
-			frames[id] = frame[frame.id] = frame.content;
+			frames[id] = frames[frame.id] = frame.content;
 		}
 	}
 
