@@ -91,6 +91,7 @@ var metadata = audioMetaData.ogg(oggData);
   "artist": "Konami",
   "album": "Bill and Lance's Excellent Adventure",
   "year": "1988",
+  "tracknumber": "1",
   "track": "1",
   "encoder": "Lavf53.21.1"
 }
@@ -114,14 +115,19 @@ Loading `audio-metadata.min.js` will define the `AudioMetadata` global variable.
 	req.onload = function() {
 		var metadata = AudioMetaData.id3v2(req.response);
 		/*
-		{
-			"title": "Contra",
-			"artist": "Bill & Ted",
-			"album": "Konami",
-			"year": "2000",
-			"track": "2",
-			"encoder": "Lavf53.21.1"
-		}
+			{
+				"TIT2": "Foobar",
+				"title": "Foobar",
+				"TPE1": "The Foobars",
+				"artist": "The Foobars",
+				"TALB": "FUBAR",
+				"album": "FUBAR",
+				"year": "2014",
+				"TRCK": "9",
+				"track": "9",
+				"TSSE": "Lavf53.21.1",
+				"encoder": "Lavf53.21.1"
+			}
 		*/
 	};
 
