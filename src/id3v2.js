@@ -25,7 +25,7 @@ module.exports = function(buffer) {
 	}
 
 	var offset = 3;
-	var majorVersion = view.getUint8(offset);
+	//var majorVersion = view.getUint8(offset);
 	offset += 2;
 	var flags = view.getUint8(offset);
 	offset++;
