@@ -73,6 +73,25 @@ describe('id3', function() {
 		});
 	});
 
+	it('should read messed up id3v2.4.0', function(done) {
+		var file = path.join(__dirname, 'files', 'id3v2.4_wtf.mp3');
+		fs.readFile(file, function(err, buffer) {
+			if (err) {
+				done(err);
+				return;
+			}
+
+			var metadata = metaDataReader.id3v2(buffer);
+			should.exist(metadata);
+			metadata.should.have.property('title', 'The Four Orbs');
+			metadata.should.have.property('artist', 'Tommy Montgomery');
+			metadata.should.have.property('album', 'Motif');
+			metadata.should.have.property('year', '2004');
+			metadata.should.have.property('track', '2');
+			done();
+		});
+	});
+
 	it('should read truncated id3v2.4.0', function(done) {
 		var file = path.join(__dirname, 'files', 'truncated.mp3');
 		fs.readFile(file, function(err, buffer) {

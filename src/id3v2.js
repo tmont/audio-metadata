@@ -15,6 +15,9 @@ function getUint28(view, offset) {
 		(sizeBytes[3] & mask);
 }
 
+//http://id3.org/id3v2.3.0
+//http://id3.org/id3v2.4.0-structure
+//http://id3.org/id3v2.4.0-frames
 module.exports = function(buffer) {
 	var view = utils.createView(buffer);
 	if (!checkMagicId3(view, 0)) {
@@ -22,6 +25,7 @@ module.exports = function(buffer) {
 	}
 
 	var offset = 3;
+	var majorVersion = view.getUint8(offset);
 	offset += 2;
 	var flags = view.getUint8(offset);
 	offset++;
@@ -35,9 +39,19 @@ module.exports = function(buffer) {
 	}
 
 	function readFrame(offset) {
+		if (offset + 10 >= view.byteLength) {
+			return null;
+		}
 		var id = utils.readAscii(view, offset, 4);
 		var size = getUint28(view, offset + 4);
-		offset += 10;
+		offset += 10; //+2 more for flags we don't care about
+
+		if (id[0] !== 'T') {
+			return {
+				id: id,
+				size: size + 10
+			};
+		}
 
 		var encoding = view.getUint8(offset),
 			data = null;
@@ -46,19 +60,23 @@ module.exports = function(buffer) {
 			offset++;
 			if (encoding === 3) {
 				//UTF8 - null terminated
-				data = utils.readUtf8(view, offset, size - 2);
+				data = utils.readUtf8(view, offset, size - 1);
 			} else {
 				//ISO-8859-1, UTF-16, UTF-16BE
 				//UTF-16 and UTF-16BE are $FF $00 terminated
 				//ISO is null terminated
 
 				//screw these encodings, read it as ascii
-				data = utils.readAscii(view, offset, size - (encoding === 0 ? 2 : 3));
+				data = utils.readAscii(view, offset, size - 1);
 			}
 		} else {
 			//no encoding info, read it as ascii
 			data = utils.readAscii(view, offset, size);
 		}
+
+		//id3v2.4 is supposed to have encoding terminations, but sometimes
+		//they don't? meh.
+		data = data.replace(/\u0000+$/, '');
 
 		return {
 			id: id,
@@ -75,21 +93,29 @@ module.exports = function(buffer) {
 		TPE1: 'artist',
 		TRCK: 'track',
 		TSSE: 'encoder',
-		TCOP: 'year'
+		TDRC: 'year'
 	};
 
 	var endOfTags = offset + size,
 		frames = {};
 	while (offset < endOfTags) {
 		var frame = readFrame(offset);
+		if (!frame) {
+			offset = Infinity;
+			continue;
+		}
+
 		offset += frame.size;
+		if (!frame.content) {
+			continue;
+		}
 		var id = idMap[frame.id] || frame.id;
 		if (id === 'TXXX') {
 			var nullByte = frame.content.indexOf('\u0000');
 			id = frame.content.substring(0, nullByte);
 			frames[id] = frame.content.substring(nullByte + 1);
 		} else {
-			frames[id] = frame.content;
+			frames[id] = frame[frame.id] = frame.content;
 		}
 	}
 
