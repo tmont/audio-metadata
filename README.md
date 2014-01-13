@@ -3,10 +3,10 @@
 [![Build Status](https://travis-ci.org/tmont/audio-metadata.png)](https://travis-ci.org/tmont/audio-metadata)
 [![NPM version](https://badge.fury.io/js/audio-metadata.png)](http://badge.fury.io/js/audio-metadata)
 
-This is a tiny (1.9K gzipped) library to extract metadata from audio files.
+This is a tinyish (2.1K gzipped) library to extract metadata from audio files.
 Specifically, it can extract [ID3v1](http://en.wikipedia.org/wiki/ID3#ID3v1),
 [ID3v2](http://en.wikipedia.org/wiki/ID3#ID3v2) and
-[Xiph comments](http://www.xiph.org/vorbis/doc/v-comment.html)
+[Vorbis comments](http://www.xiph.org/vorbis/doc/v-comment.html)
 (i.e. metadata in [OGG containers](http://en.wikipedia.org/wiki/Ogg)).
 
 Licensed under the [WTFPL](http://www.wtfpl.net/).
@@ -18,7 +18,7 @@ for server-side or client-side. Really any platform that supports
 
 I wrote it because the other libraries were large and very robust; I just
 needed something that could extract the metadata out without requiring
-30KB of JavaScript. `audio-metadata.min.js` comes in at 5.5K/1.9K
+30KB of JavaScript. `audio-metadata.min.js` comes in at 6.0K/2.1K
 minified/gzipped.
 
 To accomplish the small size and speed, it sacrifices several things.
@@ -61,6 +61,20 @@ AudioMetaData.id3v2(buffer);
 // extract ID3v1 tags
 AudioMetaData.id3v1(buffer);
 ```
+
+The result is an object with the metadata. It attempts to normalize common keys:
+
+* ''title'': (`TIT1` and `TIT2` in id3v2)
+* ''artist'' (`TSE1` in id3v2)
+* ''composer'' (`TCOM` in id3v2)
+* ''album'' (`TALB` in id3v2)
+* ''track'' (`TRCK` in id3v2, commonly `TRACKNUMBER` in xiph comments)
+* ''year'' (`TDRC` (date recorded) is used in id3v2)
+* ''encoder'' (`TSSE` in id3v2)
+
+Everything else will be keyed by its original name. For id3v2,
+anything that is not a text identifier (i.e. a frame that starts with a
+"T") is ignored. This includes comments (`COMM`).
 
 ### Node
 Install it using NPM: `npm install audio-metadata`
