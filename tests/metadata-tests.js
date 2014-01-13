@@ -54,7 +54,7 @@ describe('ogg', function() {
 
 describe('id3', function() {
 	it('should read id3v2.4.0', function(done) {
-		var file = path.join(__dirname, 'files', 'test_id3v2.4.mp3');
+		var file = path.join(__dirname, 'files', 'id3v2.4.mp3');
 		fs.readFile(file, function(err, buffer) {
 			if (err) {
 				done(err);
@@ -113,7 +113,7 @@ describe('id3', function() {
 	});
 
 	it('should read id3v2.3.0', function(done) {
-		var file = path.join(__dirname, 'files', 'test_id3v2.3.mp3');
+		var file = path.join(__dirname, 'files', 'id3v2.3.mp3');
 		fs.readFile(file, function(err, buffer) {
 			if (err) {
 				done(err);
@@ -133,7 +133,7 @@ describe('id3', function() {
 	});
 
 	it('should read id3v1', function(done) {
-		var file = path.join(__dirname, 'files', 'test_id3v1.mp3');
+		var file = path.join(__dirname, 'files', 'id3v1.mp3');
 		fs.readFile(file, function(err, buffer) {
 			if (err) {
 				done(err);
@@ -154,7 +154,7 @@ describe('id3', function() {
 	});
 
 	it('should read id3v1 with 30-byte comment and no track', function(done) {
-		var file = path.join(__dirname, 'files', 'test_id3v1_notrack.mp3');
+		var file = path.join(__dirname, 'files', 'id3v1_notrack.mp3');
 		fs.readFile(file, function(err, buffer) {
 			if (err) {
 				done(err);
