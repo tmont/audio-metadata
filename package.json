@@ -10,10 +10,13 @@
 		"url": "https://github.com/tmont/audio-metadata.git"
 	},
 
+	"bin": "bin/audio-metadata.js",
+
 	"files": [
 		"index.js",
 		"audio-metadata.min.js",
 		"src",
+		"bin",
 		"README.md"
 	],
 

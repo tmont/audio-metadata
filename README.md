@@ -77,7 +77,8 @@ anything that is not a text identifier (i.e. a frame that starts with a
 "T") is ignored. This includes comments (`COMM`).
 
 ### Node
-Install it using NPM: `npm install audio-metadata`
+Install it using NPM: `npm install audio-metadata` or `npm install -g audio-metadata`
+if you want to use it from the shell.
 
 ```javascript
 var audioMetaData = require('audio-metadata'),
@@ -97,6 +98,31 @@ var metadata = audioMetaData.ogg(oggData);
 }
 */
 ```
+
+#### From the Shell
+```
+Extract metadata from audio files
+
+USAGE
+audio-metadata --type <type> [options] file1 [file2...]
+
+OPTIONS
+--help,-h
+  This help
+--type,-t <type>
+  One of "id3v1", "id3v2" or "ogg"
+--chunk-size,-c <size>
+  Read the file in chunks of <size>; default is 512
+--quit-after,-q <length>
+  Stop searching for metadata if nothing is found after
+  <length> bytes; default is 512
+--no-colors,-z
+  Don't colorize the output
+
+EXAMPLE
+Search for metadata in the first 300 bytes in 100 byte increments
+ audio-metadata -t id3v2 -c 100 -q 300 keepitoffmy.wav
+ ```
 
 ### Browser
 This library has been tested on current versions of Firefox and Chrome. IE
