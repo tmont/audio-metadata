@@ -18,7 +18,7 @@ for server-side or client-side. Really any platform that supports
 
 I wrote it because the other libraries were large and very robust; I just
 needed something that could extract the metadata out without requiring
-30KB of JavaScript. `audio-metadata.min.js` comes in at 6.0K/2.1K
+30KB of JavaScript. `audio-metadata.min.js` comes in at 6.1K/2.1K
 minified/gzipped.
 
 To accomplish the small size and speed, it sacrifices several things.
