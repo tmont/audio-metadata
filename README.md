@@ -64,14 +64,14 @@ AudioMetaData.id3v1(buffer);
 
 The result is an object with the metadata. It attempts to normalize common keys:
 
-* ''title'': (`TIT1` and `TIT2` in id3v2)
-* ''artist'' (`TSE1` in id3v2)
-* ''composer'' (`TCOM` in id3v2)
-* ''album'' (`TALB` in id3v2)
-* ''track'' (`TRCK` in id3v2, commonly `TRACKNUMBER` in vorbis comments)
-* ''year'' (`TDRC` (date recorded) is used in id3v2)
-* ''encoder'' (`TSSE` in id3v2)
-* ''genre'' (`TCON` in id3v2)
+* __title__: (`TIT1` and `TIT2` in id3v2)
+* __artist__: (`TSE1` in id3v2)
+* __composer__: (`TCOM` in id3v2)
+* __album__: (`TALB` in id3v2)
+* __track__: (`TRCK` in id3v2, commonly `TRACKNUMBER` in vorbis comments)
+* __year__: (`TDRC` (date recorded) is used in id3v2)
+* __encoder__: (`TSSE` in id3v2)
+* __genre__: (`TCON` in id3v2)
 
 Everything else will be keyed by its original name. For id3v2,
 anything that is not a text identifier (i.e. a frame that starts with a
