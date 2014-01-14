@@ -67,9 +67,11 @@ describe('id3', function() {
 			metadata.should.have.property('title', 'Contra');
 			metadata.should.have.property('artist', 'Bill & Ted');
 			metadata.should.have.property('album', 'Konami');
-			metadata.should.have.property('year', '2000');
+			metadata.should.have.property('year', '2006');
 			metadata.should.have.property('encoder', 'Lavf53.21.1');
 			metadata.should.have.property('track', '2');
+			metadata.should.have.property('genre', 'Tango');
+			metadata.should.have.property('TCON', 'Tango');
 			done();
 		});
 	});

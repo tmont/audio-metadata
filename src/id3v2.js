@@ -94,7 +94,8 @@ module.exports = function(buffer) {
 		TPE1: 'artist',
 		TRCK: 'track',
 		TSSE: 'encoder',
-		TDRC: 'year'
+		TDRC: 'year',
+		TCON: 'genre'
 	};
 
 	var endOfTags = offset + size,

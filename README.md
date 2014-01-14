@@ -71,6 +71,7 @@ The result is an object with the metadata. It attempts to normalize common keys:
 * ''track'' (`TRCK` in id3v2, commonly `TRACKNUMBER` in xiph comments)
 * ''year'' (`TDRC` (date recorded) is used in id3v2)
 * ''encoder'' (`TSSE` in id3v2)
+* ''genre'' (`TCON` in id3v2)
 
 Everything else will be keyed by its original name. For id3v2,
 anything that is not a text identifier (i.e. a frame that starts with a
