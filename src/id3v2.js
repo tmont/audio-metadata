@@ -39,50 +39,51 @@ module.exports = function(buffer) {
 	}
 
 	function readFrame(offset) {
-		if (offset + 10 >= view.byteLength) {
-			return null;
-		}
-		var id = utils.readAscii(view, offset, 4);
-		var size = getUint28(view, offset + 4);
-		offset += 10; //+2 more for flags we don't care about
+		try {
+			var id = utils.readAscii(view, offset, 4);
+			var size = getUint28(view, offset + 4);
+			offset += 10; //+2 more for flags we don't care about
 
-		if (id[0] !== 'T') {
+			if (id[0] !== 'T') {
+				return {
+					id: id,
+					size: size + 10
+				};
+			}
+
+			var encoding = view.getUint8(offset),
+				data = '';
+
+			if (encoding <= 3) {
+				offset++;
+				if (encoding === 3) {
+					//UTF8 - null terminated
+					data = utils.readUtf8(view, offset, size - 1);
+				} else {
+					//ISO-8859-1, UTF-16, UTF-16BE
+					//UTF-16 and UTF-16BE are $FF $00 terminated
+					//ISO is null terminated
+
+					//screw these encodings, read it as ascii
+					data = utils.readAscii(view, offset, size - 1);
+				}
+			} else {
+				//no encoding info, read it as ascii
+				data = utils.readAscii(view, offset, size);
+			}
+
+			//id3v2.4 is supposed to have encoding terminations, but sometimes
+			//they don't? meh.
+			data = utils.trimNull(data);
+
 			return {
 				id: id,
-				size: size + 10
+				size: size + 10,
+				content: data
 			};
+		} catch (e) {
+			return null;
 		}
-
-		var encoding = view.getUint8(offset),
-			data = null;
-
-		if (encoding <= 3) {
-			offset++;
-			if (encoding === 3) {
-				//UTF8 - null terminated
-				data = utils.readUtf8(view, offset, size - 1);
-			} else {
-				//ISO-8859-1, UTF-16, UTF-16BE
-				//UTF-16 and UTF-16BE are $FF $00 terminated
-				//ISO is null terminated
-
-				//screw these encodings, read it as ascii
-				data = utils.readAscii(view, offset, size - 1);
-			}
-		} else {
-			//no encoding info, read it as ascii
-			data = utils.readAscii(view, offset, size);
-		}
-
-		//id3v2.4 is supposed to have encoding terminations, but sometimes
-		//they don't? meh.
-		data = data.replace(/\u0000+$/, '');
-
-		return {
-			id: id,
-			size: size + 10,
-			content: data
-		};
 	}
 
 	var idMap = {

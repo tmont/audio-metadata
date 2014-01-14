@@ -8,6 +8,10 @@ function toArrayBuffer(buffer) {
 }
 
 module.exports = {
+	trimNull: function(s) {
+		return s.replace(/\u0000+$/, '');
+	},
+
 	createView: function(buffer) {
 		if (typeof(Buffer) !== 'undefined' && buffer instanceof Buffer) {
 			//convert nodejs buffers to ArrayBuffer

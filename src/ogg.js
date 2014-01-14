@@ -39,25 +39,30 @@ module.exports = function(buffer) {
 	}
 
 	function parseComments(packet) {
-		var vendorLength = packet.getUint32(0, true),
-			commentListLength = packet.getUint32(4 + vendorLength, true),
-			comments = {},
-			offset = 8 + vendorLength,
-			map = {
-				tracknumber: 'track'
-			};
+		try {
+			var vendorLength = packet.getUint32(0, true),
+				commentListLength = packet.getUint32(4 + vendorLength, true),
+				comments = {},
+				offset = 8 + vendorLength,
+				map = {
+					tracknumber: 'track'
+				};
 
-		for (var i = 0; i < commentListLength; i++) {
-			var commentLength = packet.getUint32(offset, true),
-				comment = utils.readUtf8(packet, offset + 4, commentLength),
-				equals = comment.indexOf('='),
-				key = comment.substring(0, equals).toLowerCase();
+			for (var i = 0; i < commentListLength; i++) {
+				var commentLength = packet.getUint32(offset, true),
+					comment = utils.readUtf8(packet, offset + 4, commentLength),
+					equals = comment.indexOf('='),
+					key = comment.substring(0, equals).toLowerCase();
 
-			comments[map[key] || key] = comments[key] = comment.substring(equals + 1);
-			offset += 4 + commentLength;
+				comments[map[key] || key] = comments[key] = utils.trimNull(comment.substring(equals + 1));
+				offset += 4 + commentLength;
+			}
+
+			return comments;
+		} catch (e) {
+			//all exceptions are just malformed/truncated data, so we just ignore them
+			return null;
 		}
-
-		return comments;
 	}
 
 	var id = parsePage(0);
