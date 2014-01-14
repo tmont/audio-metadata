@@ -68,7 +68,7 @@ The result is an object with the metadata. It attempts to normalize common keys:
 * ''artist'' (`TSE1` in id3v2)
 * ''composer'' (`TCOM` in id3v2)
 * ''album'' (`TALB` in id3v2)
-* ''track'' (`TRCK` in id3v2, commonly `TRACKNUMBER` in xiph comments)
+* ''track'' (`TRCK` in id3v2, commonly `TRACKNUMBER` in vorbis comments)
 * ''year'' (`TDRC` (date recorded) is used in id3v2)
 * ''encoder'' (`TSSE` in id3v2)
 * ''genre'' (`TCON` in id3v2)
